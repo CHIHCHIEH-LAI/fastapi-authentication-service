@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS accounts (
     username VARCHAR(32) UNIQUE NOT NULL,
     password VARCHAR(32) NOT NULL,
     failed_attempts INT DEFAULT 0,
-    last_login TIMESTAMP DEFAULT NULL
+    last_login DATETIME DEFAULT NULL
 );
