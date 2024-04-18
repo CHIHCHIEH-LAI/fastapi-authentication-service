@@ -21,8 +21,7 @@ class Database:
                 password=self.password,
                 database=self.db,
                 cursorclass=DictCursor,
-                charset='utf8mb4',
-                autocommit=True
+                charset='utf8mb4'
             )
 
     def disconnect(self):
