@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 import os
-from app.database import Database
+from database import Database
 
 @contextmanager
 def get_db():
