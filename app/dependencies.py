@@ -1,9 +1,16 @@
 from contextlib import contextmanager
+import os
 from app.database import Database
 
 @contextmanager
 def get_db():
-    db = Database()
+
+    host = os.environ.get('MYSQL_HOST', 'localhost')
+    user = os.environ.get('MYSQL_USER', 'root')
+    password = os.environ.get('MYSQL_PASSWORD', 'root')
+    db_name = os.environ.get('MYSQL_DB', 'test')
+
+    db = Database(host, user, password, db_name)
     try:
         db.connection()
         yield db.connection
