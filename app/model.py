@@ -15,6 +15,6 @@ class Account(BaseModel):
     def validate_password(cls, value):
         if len(value) < 8 or len(value) > 32:
             raise ValueError('Password must be between 8 and 32 characters')
-        if not re.research('[a-z]', value) or not re.research('[A-Z]', value) or not re.research('[0-9]', value):
+        if not re.search('[a-z]', value) or not re.search('[A-Z]', value) or not re.search('[0-9]', value):
             raise ValueError('Password must contain at least one lowercase letter, one uppercase letter, and one number')
         return value
