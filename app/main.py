@@ -6,7 +6,7 @@ from crud import CRUD
 
 app = FastAPI()
 
-@app.post("/create_account", status_code=200)
+@app.post("/create_account", status_code=201)
 async def create_account(account: Account, db = Depends(get_db)):
     crud = CRUD(db)
     if not crud.create_account(account.username, account.password):
