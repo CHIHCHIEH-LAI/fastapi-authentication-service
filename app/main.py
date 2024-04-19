@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException, Depends
 from datetime import datetime
-from model import Account
-from dependencies import get_db
-from crud import CRUD
+from .model import Account
+from .dependencies import get_db
+from .crud import CRUD
 
 app = FastAPI()
 
