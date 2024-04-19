@@ -12,7 +12,7 @@ def get_db():
 
     db = Database(host, user, password, db_name)
     try:
-        db.connection()
+        db.connect()
         yield db.connection
     finally:
         db.disconnect()
