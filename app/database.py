@@ -1,17 +1,13 @@
 import pymysql
 from pymysql.cursors import DictCursor
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 class Database:
-    def __init__(self):
+    def __init__(self, host, user, password, db):
         self.connection = None
-        self.host = os.getenv('MYSQL_HOST', 'localhost')
-        self.user = os.getenv('MYSQL_USER', 'root')
-        self.password = os.getenv('MYSQL_PASSWORD', '')
-        self.db = os.getenv('MYSQL_DB', 'test')
+        self.host = host
+        self.user = user
+        self.password = password
+        self.db = db
 
     def connect(self):
         if not self.connection or not self.connection.open:
