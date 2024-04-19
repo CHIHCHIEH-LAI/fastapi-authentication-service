@@ -6,7 +6,7 @@ class Account(BaseModel):
     password: str
 
     @field_validator('username')
-    def validate_password(cls, value):
+    def validate_username(cls, value):
         if not (3 <= len(value) <= 32):
             raise ValueError('Username must be between 3 and 32 characters')
         return value
