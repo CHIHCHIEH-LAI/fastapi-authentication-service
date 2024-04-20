@@ -5,9 +5,9 @@ FROM python:3.10
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-COPY ./app /app/app
-COPY main.py /app
-COPY requirements.txt /app
+COPY ./app ./app
+COPY main.py .
+COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
