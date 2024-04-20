@@ -12,6 +12,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: on-failure
 
   db:
     image: mysql:8.3
@@ -26,4 +27,5 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
       interval: 5s
       retries: 30
+    restart: on-failure
     
