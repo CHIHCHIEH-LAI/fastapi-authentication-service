@@ -21,7 +21,7 @@ def test_crud_operations():
 
     # Test update_failed_attempts method
     current_time = datetime.now().replace(microsecond=0)
-    crud.update_failed_attempts('testuser', 3, current_time)
+    crud.update_verify_status('testuser', 3, current_time)
     account = crud.read_account('testuser')
     assert account['failed_attempts'] == 3, "Failed attempts should be updated"
     assert account['last_attempt_time'] == current_time, "Last attempt time should be updated"
@@ -30,3 +30,5 @@ def test_crud_operations():
     with db.cursor() as cursor:
         cursor.execute("DELETE FROM accounts WHERE username = 'testuser'")
         db.commit()
+    
+    db.close()
