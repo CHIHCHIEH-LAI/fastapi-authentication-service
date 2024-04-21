@@ -1,8 +1,13 @@
 # fastapi-authentication-service
-This document provides detailed information on how to interact with the APIs for creating and verifying accounts. Each endpoint is describe with necessary details such as HTTP.
+## Project Overview
+### Objective
+The objective of this project is to design and implement two RESTful HTTP APIs that handle account creation and verification processes. The system must process JSON payloads for input and output, ensuring robust error handling and input validation. The entire application will be implemented in Python, following REST principles, and will be containerized using Docker for deployment and distribution.
+
+
+
+
 
 ## API Documentation
-### Overview
 This document outlines the usage of the APIs for creating and verifying accounts within our system. Each endpoint is detailed with required parameters, expected responses, and potential error codes.
 
 ### Endpoints
@@ -10,6 +15,12 @@ This document outlines the usage of the APIs for creating and verifying accounts
 - URL: `/create_account`
 - Method: `POST`
 - Description: Creates a new user account
+- Inputs:
+    - `username`: A string that must be between 3 and 32 characters long.
+    - `password`: A string that must be between 8 and 32 characters long and include at least one uppercase letter, one lowercase letter, and one number.
+- Outputs:
+    - `success`: A boolean indicating whether the account creation was successful.
+    - `reason`: A string detailing why account creation failed, if applicable (e.g., "Username already exists").
 - Request Body (JSON):
 ```
 {
@@ -43,10 +54,23 @@ This document outlines the usage of the APIs for creating and verifying accounts
         "reason": "Username must be between 3 and 32 characters"
     }
     ```
+- Example Request:
+```
+curl -X POST http://localhost/create_account \
+    -H "Content-Type: application/json" \
+    -d '{"username": "newuser", "password": "securePassword123"}'
+```
+
 #### Verify Account
 - URL: `/verify_account`
 - Method: `POST`
 - Description: Verifies user login credentials.
+- Inputs:
+    - `username`: A string representing the username of the account being accessed.
+    - `password`: A string that must be between 8 and 32 characters long and include at least one uppercase letter, one lowercase letter, and one number.
+- Outputs:
+    - `success`: A boolean indicating whether the account creation was successful.
+    - `reason`: A string representing the password being used to access the account.
 - Request Body (JSON):
 ```
 {
@@ -88,6 +112,13 @@ This document outlines the usage of the APIs for creating and verifying accounts
         "reason": "Too many failed attempts. Try again in 60 seconds"
     }
     ```
+- Example Request:
+```
+curl -X POST http://localhost/verify_account \
+    -H "Content-Type: application/json" \
+    -d '{"username": "newuser", "password": "securePassword123"}'
+```
+
 ### Models
 #### Account
 Fields:
