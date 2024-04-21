@@ -167,7 +167,7 @@ Make sure the project directory is structured properly. Here is an overview
 
 Run the following command in the directory containing docker-compose.yml to start all configured services:
 ```
-docker-compose up
+docker compose up
 ```
 This command pulls the necessary Docker images and starts the containers.
 
@@ -182,15 +182,15 @@ http://localhost:8000/docs
 
 To stop all services without removing them:
 ```
-docker-compose stop
+docker compose stop
 ```
 To restart the services:
 ```
-docker-compose restart
+docker compose restart
 ```
 To stop and remove all related Docker containers, networks, and volumes:
 ```
-docker-compose down
+docker compose down
 ```
 
 ### Troubleshooting
