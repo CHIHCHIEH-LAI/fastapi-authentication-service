@@ -1,11 +1,13 @@
-# fastapi-authentication-service
+# FastAPI Authentication Service
 ## Project Overview
 ### Objective
-The objective of this project is to design and implement two RESTful HTTP APIs that handle account creation and verification processes. The system must process JSON payloads for input and output, ensuring robust error handling and input validation. The entire application will be implemented in Python, following REST principles, and will be containerized using Docker for deployment and distribution.
+The objective of this project is to design and implement two RESTful HTTP APIs that handle account creation and verification processes using FastAPI. The system processes JSON payloads for input and output, ensuring robust error handling and input validation. The implementation utilizes FastAPI, MySQL as the database, and Pydantic for data validation. The application is containerized using Docker for deployment and distribution, and the Docker image is available on Docker Hub.
 
-
-
-
+### Tools and Technologies
+- `FastAPI`: A modern, high-performance web framework for building APIs.
+- `MySQL`: Used as the backend database to store user data securely.
+- `Pydantic`: Used for data validation by leveraging Python type annotations.
+- `Docker`: Used to containerize the application, ensuring it can be easily deployed and run on any system.
 
 ## API Documentation
 This document outlines the usage of the APIs for creating and verifying accounts within our system. Each endpoint is detailed with required parameters, expected responses, and potential error codes.
@@ -143,14 +145,16 @@ Before you begin, ensure you have the following installed:
 - `Docker Compose`: Typically installed with Docker Desktop for Windows and Mac, but may require separate installation on Linux.
 
 ### Getting Started
-1. Clone the Repository
+1. Clone the Repository 
+
 This command downloads the project files into a directory named fastapi-authentication-service and changes into that directory.
 ```
 git clone https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service.git
 cd fastapi-authentication-service
 ```
 
-2. Review the Project Structure
+2. Review the Project Structure 
+
 Make sure the project directory is structured properly. Here is an overview
 ```
 |-- docker-compose.yml # The Docker Compose configuration file.
@@ -159,20 +163,23 @@ Make sure the project directory is structured properly. Here is an overview
 ```
 
 ### Running the Containers
-1. Start the Services
+1. Start the Services 
+
 Run the following command in the directory containing docker-compose.yml to start all configured services:
 ```
 docker-compose up
 ```
 This command pulls the necessary Docker images and starts the containers.
 
-2. Access the Application Docs
+2. Access the Application Docs 
+
 After the containers have started, access the FastAPI application docs via:
 ```
 http://localhost:8000/docs
 ```
 
 3. Manage the Services
+
 To stop all services without removing them:
 ```
 docker-compose stop
