@@ -1,7 +1,7 @@
-version: '2'
+version: '2.0'
 services:
   app:
-    build: .
+    image: jjyyjay/fastapiauthapp:v1.0
     ports:
       - "8000:8000"
     environment:
