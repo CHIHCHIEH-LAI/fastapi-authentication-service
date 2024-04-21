@@ -4,6 +4,16 @@ from pymysql.cursors import DictCursor
 from datetime import datetime
 from app.crud import CRUD
 
+@pytest.fixture(autouse=True)
+def cleanup():
+    yield  # This is where the test function will run
+    # Cleanup
+    db = Connection(host='localhost', user='root', password='root', db='accountDB', cursorclass=DictCursor, charset='utf8mb4')
+    with db.cursor() as cursor:
+        cursor.execute("DELETE FROM accounts WHERE username = 'testuser'")
+        db.commit()
+    db.close()
+
 def test_crud_operations():
     # Assuming a connection object is available
     db = Connection(host='localhost', user='root', password='root', db='accountDB', cursorclass=DictCursor, charset='utf8mb4')
@@ -25,10 +35,3 @@ def test_crud_operations():
     account = crud.read_account('testuser')
     assert account['failed_attempts'] == 3, "Failed attempts should be updated"
     assert account['last_attempt_time'] == current_time, "Last attempt time should be updated"
-
-    # Cleanup
-    with db.cursor() as cursor:
-        cursor.execute("DELETE FROM accounts WHERE username = 'testuser'")
-        db.commit()
-    
-    db.close()
