@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, status
+from fastapi import FastAPI, status, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from datetime import datetime
 from app.model import Account
@@ -8,6 +8,13 @@ from app.crud import CRUD
 db = get_db()
 
 app = FastAPI()
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc: HTTPException):
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"success": False, "reason": exc.detail},
+    )
 
 @app.post("/create_account", status_code=status.HTTP_201_CREATED)
 async def create_account(account: Account):
