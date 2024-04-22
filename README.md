@@ -169,6 +169,7 @@ Make sure the project directory is structured properly. Here is an overview
 |-- db/
     |-- init.sql       # SQL script to initialize the database schema
 ```
+Other files in the repo are not needed.
 
 ### Running the Containers
 1. Start the Services 
