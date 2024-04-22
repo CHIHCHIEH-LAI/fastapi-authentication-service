@@ -114,6 +114,14 @@ curl -X POST http://localhost/create_account \
         "reason": "Too many failed attempts. Try again in 60 seconds"
     }
     ```
+    - Code: 422 Unprocessable Entity
+    - Content:
+    ```
+    {
+        "success": false,
+        "reason": "Username must be between 3 and 32 characters"
+    }
+    ```
 - Example Request:
 ```
 curl -X POST http://localhost/verify_account \
