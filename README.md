@@ -9,6 +9,6 @@ The objective of this project is to design and implement two RESTful HTTP APIs t
 - `Pydantic`: Used for data validation by leveraging Python type annotations.
 - `Docker`: Used to containerize the application, ensuring it can be easily deployed and run on any system.
 
-## Wiki
+### Wiki
 - [API Documentation](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/wiki/API-Documentation)
 - [Running App with Docker Compose](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/wiki/Running-App-with-Docker-Compose)
