@@ -11,7 +11,14 @@ class Database:
 
     def connect(self):
         if not self.connection or not self.connection.open:
-            self.connection = Connection(host='localhost', user='root', password='root', db='accountDB', cursorclass=DictCursor, charset='utf8mb4')
+            self.connection = Connection(
+                host=self.host, 
+                user=self.user, 
+                password=self.password, 
+                db=self.db, 
+                cursorclass=DictCursor, 
+                charset='utf8mb4'
+            )
 
     def disconnect(self):
         if self.connection and self.connection.open:
