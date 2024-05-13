@@ -40,7 +40,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Change permissions
-        run: sudo chmod -R 777 ./db
+        run: sudo chmod -R 777 ./db/init.sql
       
       - name: Wait for MySQL to be ready
         run: |
