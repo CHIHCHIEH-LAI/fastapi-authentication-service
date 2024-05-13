@@ -26,6 +26,9 @@ jobs:
           --restart=on-failure
 
     steps:
+      - name: Change permissions
+        run: sudo chmod -R 777 ./db
+
       - name: Checkout code
         uses: actions/checkout@v2
 
