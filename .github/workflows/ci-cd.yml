@@ -26,9 +26,6 @@ jobs:
           --restart=on-failure
 
     steps:
-      - name: Change permissions
-        run: sudo chmod -R 777 ./db
-
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -41,6 +38,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Change permissions
+        run: sudo chmod -R 777 ./db
       
       - name: Wait for MySQL to be ready
         run: |
