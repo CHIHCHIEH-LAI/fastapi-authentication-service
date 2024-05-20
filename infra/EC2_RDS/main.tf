@@ -74,5 +74,54 @@ resource "aws_route_table_association" "main_private_subnet_association" {
 }
 
 # Create a EC2 security group
+resource "aws_security_group" "main_web_sg" {
+    name = "main_web_sg"
+    vpc_id = aws_vpc.main_vpc.id
+    ingress {
+        description = "Allow HTTP traffic"
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    ingress {
+        description = "Allow SSH traffic"
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["${var.my_ip}/32"]
+    }
+
+    egress {
+        description = "Allow all outbound traffic"
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    tags = {
+        Name = "main_web_sg"
+    }
+}
+
+# Create a RDS security group
+resource "aws_security_group" "main_db_sg" {
+    name = "main_db_sg"
+    vpc_id = aws_vpc.main_vpc.id
+    ingress {
+        description = "Allow MySQL traffic"
+        from_port = 3306
+        to_port = 3306
+        protocol = "tcp"
+        security_groups = [aws_security_group.main_web_sg.id]
+    }
+
+    tags = {
+        Name = "main_db_sg"
+    }
+}
+
 
 
