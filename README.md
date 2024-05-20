@@ -12,3 +12,6 @@ The objective of this project is to design and implement two RESTful HTTP APIs t
 ### Wiki
 - [API Documentation](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/wiki/API-Documentation)
 - [Running App with Docker Compose](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/wiki/Running-App-with-Docker-Compose)
+
+### Resource
+- [Using Terraform to Create EC2 and RDS Instances Inside a Custom VPC on AWS](https://medium.com/strategio/using-terraform-to-create-aws-vpc-ec2-and-rds-instances-c7f3aa416133)
