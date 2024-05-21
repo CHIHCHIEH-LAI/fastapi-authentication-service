@@ -2,7 +2,7 @@
 .vscode
 .pytest_cache
 __pycache__
-.terraform/
-.terraform.lock.hcl
+.terraform*
 terraform.tfstate*
 secrets.tfvars
+main_kp*
