@@ -25,7 +25,7 @@ resource "aws_subnet" "main_public_subnet" {
     count = var.subnet_count.public
 
     vpc_id = aws_vpc.main_vpc.id
-    cidr_block = var.subnet_cidr_block.public[count.index]
+    cidr_block = var.public_subnet_cidr_blocks[count.index]
     availability_zone = data.aws_availability_zones.available.names[count.index]
 
     tags = {
@@ -54,7 +54,7 @@ resource "aws_subnet" "main_private_subnet" {
     count = var.subnet_count.private
 
     vpc_id = aws_vpc.main_vpc.id
-    cidr_block = var.subnet_cidr_block.private[count.index]
+    cidr_block = var.private_subnet_cidr_blocks[count.index]
     availability_zone = data.aws_availability_zones.available.names[count.index]
 
     tags = {
@@ -79,8 +79,8 @@ resource "aws_security_group" "main_web_sg" {
     vpc_id = aws_vpc.main_vpc.id
     ingress {
         description = "Allow HTTP traffic"
-        from_port = 80
-        to_port = 80
+        from_port = 8000
+        to_port = 8000
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -123,5 +123,64 @@ resource "aws_security_group" "main_db_sg" {
     }
 }
 
+# Create a db subnet group
+resource "aws_db_subnet_group" "main_db_subnet_group" {
+    name = "main_db_subnet_group"
+    subnet_ids = [for subnet in aws_subnet.main_private_subnet : subnet.id]
+}
 
+# create a MySQL RDS instance
+resource "aws_db_instance" "main_db" {
+    allocated_storage = var.settings.database.allocated_storage
+    engine = var.settings.database.engine
+    engine_version = var.settings.database.engine_version
+    instance_class = var.settings.database.instance_class
+    db_name = var.settings.database.db_name
+    username = var.db_username
+    password = var.db_password
+    db_subnet_group_name = aws_db_subnet_group.main_db_subnet_group.id
+    vpc_security_group_ids = [aws_security_group.main_db_sg.id]
+    skip_final_snapshot = var.settings.database.skip_final_snapshot
+}
+
+# Create a EC2 instance
+resource "aws_key_pair" "main_kp" {
+    key_name = "main_kp"
+    public_key = file("main_kp.pub")
+}
+
+data "aws_ami" "ubuntu" {
+    most_recent = "true"
+    filter {
+        name = "name"
+        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    }
+
+    filter {
+        name = "virtualization-type"
+        values = ["hvm"]
+    }
+
+    owners = ["099720109477"]
+}
+
+resource "aws_instance" "main_web" {
+    count = var.settings.web_app.count
+    ami = data.aws_ami.ubuntu.id
+    instance_type = var.settings.web_app.instance_type
+    subnet_id = aws_subnet.main_public_subnet[count.index].id
+    key_name = aws_key_pair.main_kp.key_name
+    vpc_security_group_ids = [aws_security_group.main_web_sg.id]
+    tags = {
+        Name = "main_web_${count.index}"
+    }
+}
+
+resource "aws_eip" "main_web_eip" {
+    count = var.settings.web_app.count
+    instance = aws_instance.main_web[count.index].id
+    tags = {
+        Name = "main_web_eip_${count.index}"
+    }
+}
 
