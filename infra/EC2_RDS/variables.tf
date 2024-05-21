@@ -26,8 +26,8 @@ variable "settings" {
         "database" = {
             allocated_storage = 10
             engine = "mysql"
-            engine_version = "8.0.27"
-            instance_class = "db.t2.micro"
+            engine_version = "8.0"
+            instance_class = "db.m5.large"
             db_name = "accountDB"
             skip_final_snapshot = true
         },
