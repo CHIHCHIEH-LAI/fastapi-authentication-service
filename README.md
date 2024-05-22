@@ -19,3 +19,4 @@ EC2 + RDS
 
 ### Resource
 - [Using Terraform to Create EC2 and RDS Instances Inside a Custom VPC on AWS](https://medium.com/strategio/using-terraform-to-create-aws-vpc-ec2-and-rds-instances-c7f3aa416133)
+- [AWS ECS Tutorial | Deploy a New Application from Scratch](https://www.youtube.com/watch?v=esISkPlnxL0&t=293s)
