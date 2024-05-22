@@ -32,6 +32,12 @@ variable "settings" {
             db_name = "accountDB"
             skip_final_snapshot = true
         }
+        "web_app" = {
+            memory = 512
+            cpu = 256
+            image = "jjyyjay/fastapiauthapp:v1.0"
+            desired_count = 1
+        }
     }
 }
 

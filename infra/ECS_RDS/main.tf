@@ -117,13 +117,65 @@ resource "aws_db_instance" "main" {
     db_subnet_group_name = aws_db_subnet_group.main.id
     vpc_security_group_ids = [aws_security_group.rds_sg.id]
     skip_final_snapshot = var.settings.database.skip_final_snapshot
-
-    depends_on = [aws_db_subnet_group.main]
 }
 
 # Create an ECS
 resource "aws_ecs_cluster" "main" {
     name = "ecs-cluster"
+}
+
+resource "aws_ecs_task_definition" "web" {
+    family                   = "web-app"
+    network_mode             = "awsvpc"
+    requires_compatibilities = ["FARGATE"]
+    memory = var.settings.web_app.memory
+    cpu = var.settings.web_app.cpu
+
+    container_definitions = jsonencode([
+        {
+            name = "web-app"
+            image = var.settings.web_app.image
+            essential = true
+            portMappings = [
+                {
+                    containerPort = 8000
+                    hostPort = 8000
+                }
+            ]
+            environment = [
+                {
+                    name = "MYSQL_HOST"
+                    value = aws_db_instance.main.address
+                },
+                {
+                    name = "MYSQL_DB"
+                    value = var.settings.database.db_name
+                },
+                {
+                    name = "MYSQL_USER"
+                    value = var.db_username
+                },
+                {
+                    name = "MYSQL_PASSWORD"
+                    value = var.db_password
+                }
+            ]
+        }
+    ])
+}
+
+resource "aws_ecs_service" "web" {
+    name            = "web-app-service"
+    cluster         = aws_ecs_cluster.main.id
+    task_definition = aws_ecs_task_definition.web.arn
+    desired_count   = var.settings.web_app.desired_count
+    launch_type     = "FARGATE"
+
+    network_configuration {
+        subnets = [for subnet in aws_subnet.private_fargate : subnet.id]
+        security_groups = [aws_security_group.web.id]
+        assign_public_ip = false
+    }
 }
 
 
