@@ -14,11 +14,5 @@ Skills: Python, FastAPI, MySQL, Docker, Terraform, AWS EC2, Fargate, RDS, ECS, E
 ### Wiki
 - [API Documentation](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/wiki/API-Documentation)
 - [Running App with Docker Compose](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/wiki/Running-App-with-Docker-Compose)
+- [Deploy App to AWS cloud with Terraform](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/wiki/Deploy-App-to-AWS-cloud-with-Terraform)
 
-### Deployment
-EC2 + RDS
-![EC2_RDS_diagram](https://github.com/CHIHCHIEH-LAI/fastapi-authentication-service/blob/main/imgs/EC2_RDS_diagram.png)
-
-### Resource
-- [Using Terraform to Create EC2 and RDS Instances Inside a Custom VPC on AWS](https://medium.com/strategio/using-terraform-to-create-aws-vpc-ec2-and-rds-instances-c7f3aa416133)
-- [AWS ECS Tutorial | Deploy a New Application from Scratch](https://www.youtube.com/watch?v=esISkPlnxL0&t=293s)
