@@ -71,7 +71,7 @@ resource "aws_route_table_association" "private_rds" {
 }
 
 # Create security groups
-resource "aws_security_group" "web" {
+resource "aws_security_group" "web_sg" {
     vpc_id = aws_vpc.main.id
     ingress {
         description = "Allow HTTP traffic"
@@ -97,8 +97,26 @@ resource "aws_security_group" "rds_sg" {
         from_port = 3306
         to_port = 3306
         protocol = "tcp"
-        security_groups = [aws_security_group.web.id]
+        security_groups = [aws_security_group.web_sg.id]
     }
+}
+
+resource "aws_security_group" "ecs_task_sg" {
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    security_groups = [aws_security_group.web_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 # Create a RDS
@@ -173,8 +191,14 @@ resource "aws_ecs_service" "web" {
 
     network_configuration {
         subnets = [for subnet in aws_subnet.private_fargate : subnet.id]
-        security_groups = [aws_security_group.web.id]
+        security_groups = [aws_security_group.ecs_task_sg.id]
         assign_public_ip = false
+    }
+
+    load_balancer {
+        target_group_arn = aws_lb_target_group.main.arn
+        container_name = "web-app"
+        container_port = 8000
     }
 }
 
@@ -183,7 +207,7 @@ resource "aws_lb" "main" {
     name               = "web-app-lb"
     internal           = false
     load_balancer_type = "application"
-    security_groups    = [aws_security_group.web.id]
+    security_groups    = [aws_security_group.web_sg.id]
     subnets            = [for subnet in aws_subnet.public : subnet.id]
 }
 
@@ -204,18 +228,3 @@ resource "aws_lb_listener" "http" {
         target_group_arn = aws_lb_target_group.main.arn
     }
 }
-
-resource "aws_lb_target_group_attachment" "main" {
-    target_group_arn = aws_lb_target_group.main.arn
-    target_id        = aws_ecs_service.web.id
-    port             = 8000
-}
-
-
-
-
-
-
-
-
-
