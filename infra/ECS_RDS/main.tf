@@ -178,6 +178,41 @@ resource "aws_ecs_service" "web" {
     }
 }
 
+# Create a load balancer
+resource "aws_lb" "main" {
+    name               = "web-app-lb"
+    internal           = false
+    load_balancer_type = "application"
+    security_groups    = [aws_security_group.web.id]
+    subnets            = [for subnet in aws_subnet.public : subnet.id]
+}
+
+resource "aws_lb_target_group" "main" {
+    name     = "web-app-tg"
+    port     = 8000
+    protocol = "HTTP"
+    vpc_id   = aws_vpc.main.id
+}
+
+resource "aws_lb_listener" "http" {
+    load_balancer_arn = aws_lb.main.arn
+    port              = 8000
+    protocol          = "HTTP"
+
+    default_action {
+        type             = "forward"
+        target_group_arn = aws_lb_target_group.main.arn
+    }
+}
+
+resource "aws_lb_target_group_attachment" "main" {
+    target_group_arn = aws_lb_target_group.main.arn
+    target_id        = aws_ecs_service.web.id
+    port             = 8000
+}
+
+
+
 
 
 
